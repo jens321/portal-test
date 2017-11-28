@@ -1,5 +1,4 @@
 let io = null;
-let sockets = {};
 
 module.exports = {
     init: function(server) {
@@ -12,8 +11,5 @@ module.exports = {
     },
     instance: function() {
       return io;
-    },
-    sockets: function() {
-      return sockets;
     }
   }

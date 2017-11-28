@@ -1,4 +1,4 @@
-var express = require('express');
+let express = require('express');
 var router = express.Router();
 let Board = require('../models/board'); 
 let socketio = require('../socketio'); 
@@ -18,20 +18,15 @@ router.get('/r/:key', function(req, res, next) {
         }
       }
 
-      console.log(colorMatrix); 
-
       let board = new Board({
         key: req.params.key,
         colors: colorMatrix,
         col: 5,
         row: 5
-      });
-
-      console.log(board); 
+      }); 
     
       board.save(function(err, newBoard) {
-        if (err) throw err; 
-        console.log(newBoard); 
+        if (err) throw err;  
         res.render('index', { title: 'Color Picker', board: newBoard });
       });
 
@@ -46,7 +41,6 @@ router.patch('/colors', function(req, res, next) {
     let colorMatrix = currentBoard.colors;
     colorMatrix[req.body.row][req.body.col] = req.body.color; 
     Board.findByIdAndUpdate({ _id: currentBoard._id }, { colors: colorMatrix }, { new: true }, function(err, newBoard) {
-      console.log(newBoard);
       socketio.instance().sockets.in(req.body.boardKey).emit('color_change', [req.body.row, req.body.col, req.body.color]);  
       res.end(); 
     }); 
