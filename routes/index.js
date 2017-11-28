@@ -53,4 +53,10 @@ router.patch('/colors', function(req, res, next) {
   });
 });
 
+router.get('/colors/reset/:key', function(req, res, next) {
+  Board.findOne({ "key": req.params.key }, function(err, board) {
+    res.json(board.colors);  
+  });
+}); 
+
 module.exports = router;
